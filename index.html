@@ -1,314 +1,177 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Afiliado AI</title>
 
-<title>Afiliado AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-body{
-  background:#f3f4f6;
-  min-height:100vh;
-  padding:20px;
-}
+    h1 {
+      text-align: center;
+    }
 
-.container{
-  max-width:520px;
-  margin:auto;
-}
+    input {
+      width: 100%;
+      padding: 14px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
 
-header{
-  text-align:center;
-  padding:25px 0;
-}
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 8px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
 
-header h1{
-  font-size:30px;
-}
+    button:disabled {
+      opacity: 0.6;
+    }
 
-header p{
-  color:#666;
-  margin-top:8px;
-}
+    #resultado {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
 
-.card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:15px;
-  box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-input{
-  width:100%;
-  padding:15px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  font-size:16px;
-  margin-bottom:12px;
-}
-
-button{
-  width:100%;
-  padding:15px;
-  border:0;
-  border-radius:12px;
-  background:#111827;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:disabled{
-  opacity:.6;
-}
-
-.resultado{
-  display:none;
-}
-
-.campo{
-  margin-top:18px;
-}
-
-.campo h3{
-  font-size:13px;
-  color:#777;
-  margin-bottom:7px;
-}
-
-.texto{
-  background:#f3f4f6;
-  padding:13px;
-  border-radius:10px;
-  line-height:1.5;
-  white-space:pre-wrap;
-}
-
-.copiar{
-  margin-top:8px;
-  background:#e5e7eb;
-  color:#111827;
-  font-size:14px;
-}
-
-.link{
-  word-break:break-all;
-  color:#2563eb;
-}
-
-.status{
-  text-align:center;
-  margin-top:12px;
-  color:#666;
-}
-
-.aviso{
-  text-align:center;
-  color:#888;
-  font-size:12px;
-  margin-top:15px;
-  line-height:1.5;
-}
-</style>
+    #copiar {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-<header>
-<h1>🚀 Afiliado AI</h1>
-<p>Seu assistente automático de afiliados</p>
-</header>
+    <h1>🤖 Afiliado AI</h1>
 
-<div class="card">
+    <p>Coloque o link do produto:</p>
 
-<label>🔗 Cole seu link do Mercado Livre</label>
+    <input
+      id="link"
+      type="url"
+      placeholder="Cole aqui o link do Mercado Livre"
+    >
 
-<input
-id="link"
-type="url"
-placeholder="Ex: https://meli.la/..."
->
+    <button id="botao" onclick="gerarAnuncio()">
+      🚀 Gerar anúncio
+    </button>
 
-<button id="btn" onclick="criarAnuncio()">
-🔥 CRIAR ANÚNCIO
-</button>
+    <div id="resultado"></div>
 
-<p id="status" class="status"></p>
+    <button id="copiar" onclick="copiarAnuncio()">
+      📋 Copiar anúncio
+    </button>
 
-</div>
+  </div>
 
-<div id="resultado" class="card resultado">
+  <script>
 
-<h2>📦 Anúncio criado</h2>
+    async function gerarAnuncio() {
 
-<div class="campo">
-<h3>🎯 GANCHO</h3>
-<div id="gancho" class="texto"></div>
-</div>
+      const link = document.getElementById("link").value;
+      const resultado = document.getElementById("resultado");
+      const botao = document.getElementById("botao");
+      const copiar = document.getElementById("copiar");
 
-<div class="campo">
-<h3>🎬 ROTEIRO</h3>
-<div id="roteiro" class="texto"></div>
+      if (!link) {
+        resultado.innerText = "⚠️ Cole o link de um produto primeiro.";
+        copiar.style.display = "none";
+        return;
+      }
 
-<button class="copiar" onclick="copiar('roteiro')">
-📋 COPIAR ROTEIRO
-</button>
-</div>
+      botao.disabled = true;
+      botao.innerText = "🤖 Gerando...";
+      copiar.style.display = "none";
 
-<div class="campo">
-<h3>📝 LEGENDA</h3>
-<div id="legenda" class="texto"></div>
+      resultado.innerText =
+        "A IA está preparando seu anúncio...";
 
-<button class="copiar" onclick="copiar('legenda')">
-📋 COPIAR LEGENDA
-</button>
-</div>
+      try {
 
-<div class="campo">
-<h3>🔗 SEU LINK DE AFILIADO</h3>
+        const resposta = await fetch(
+          "https://ia-afiliada.onrender.com/gerar-anuncio",
+          {
+            method: "POST",
 
-<div id="linkResultado" class="texto link"></div>
-</div>
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-</div>
+            body: JSON.stringify({
+              link: link
+            })
+          }
+        );
 
-<p class="aviso">
-V1 — gerador de anúncios para afiliados.
-A integração com IA e publicação automática será adicionada nas próximas etapas.
-</p>
+        const dados = await resposta.json();
 
-</div>
+        if (!resposta.ok) {
+          throw new Error(
+            dados.erro || "Erro ao gerar anúncio."
+          );
+        }
 
-<script>
+        resultado.innerText = dados.anuncio;
 
-function criarAnuncio(){
+        copiar.style.display = "block";
 
-const link =
-document.getElementById("link").value.trim();
+      } catch (erro) {
 
-if(!link){
+        resultado.innerText =
+          "❌ Erro: " + erro.message;
 
-alert("Cole primeiro o seu link de afiliado.");
+        copiar.style.display = "none";
 
-return;
-}
+      } finally {
 
-/*
-Aceita:
-- mercadolivre.com.br
-- mercadolibre.com
-- meli.la
-*/
+        botao.disabled = false;
+        botao.innerText = "🚀 Gerar anúncio";
 
-const linkValido =
-link.includes("mercadolivre") ||
-link.includes("mercadolibre") ||
-link.includes("meli.la");
+      }
 
-if(!linkValido){
+    }
 
-alert("Cole um link válido do Mercado Livre.");
+    function copiarAnuncio() {
 
-return;
-}
+      const texto =
+        document.getElementById("resultado").innerText;
 
-const botao =
-document.getElementById("btn");
+      navigator.clipboard.writeText(texto)
+        .then(() => {
+          alert("✅ Anúncio copiado!");
+        })
+        .catch(() => {
+          alert("❌ Não foi possível copiar.");
+        });
 
-const status =
-document.getElementById("status");
+    }
 
-botao.disabled = true;
-
-status.innerText =
-"🤖 Criando seu anúncio...";
-
-setTimeout(function(){
-
-document.getElementById("gancho").innerText =
-"🔥 OLHA ESSE ACHADO QUE EU ENCONTREI NO MERCADO LIVRE!";
-
-document.getElementById("roteiro").innerText =
-`Olha esse achado!
-
-Se você está procurando um produto com bom custo-benefício,
-vale a pena conferir essa opção.
-
-Veja o preço, as avaliações e todos os detalhes
-antes de comprar.
-
-Confira o produto através do link da indicação.`;
-
-document.getElementById("legenda").innerText =
-`🔥 ACHADINHO DO MERCADO LIVRE!
-
-Encontrei esse produto e vale a pena conferir.
-
-👉 Confira preço, avaliações e detalhes pelo link da indicação.
-
-#mercadolivre
-#achadinhos
-#ofertas
-#compras
-#promocao`;
-
-document.getElementById("linkResultado").innerText =
-link;
-
-document.getElementById("resultado").style.display =
-"block";
-
-status.innerText =
-"✅ Anúncio criado com sucesso!";
-
-botao.disabled = false;
-
-},1000);
-
-}
-
-
-function copiar(id){
-
-const elemento =
-document.getElementById(id);
-
-const texto =
-elemento.innerText;
-
-navigator.clipboard.writeText(texto)
-.then(function(){
-
-alert("Copiado! ✅");
-
-})
-.catch(function(){
-
-alert("Não foi possível copiar automaticamente.");
-
-});
-
-}
-
-</script>
+  </script>
 
 </body>
-      </html>
+</html>
