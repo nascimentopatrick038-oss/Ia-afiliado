@@ -1,4 +1,4 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -71,6 +71,7 @@ button{
   color:white;
   font-size:16px;
   font-weight:bold;
+  cursor:pointer;
 }
 
 button:disabled{
@@ -116,6 +117,14 @@ button:disabled{
   margin-top:12px;
   color:#666;
 }
+
+.aviso{
+  text-align:center;
+  color:#888;
+  font-size:12px;
+  margin-top:15px;
+  line-height:1.5;
+}
 </style>
 </head>
 
@@ -130,12 +139,12 @@ button:disabled{
 
 <div class="card">
 
-<label>🔗 Link do Mercado Livre</label>
+<label>🔗 Cole seu link do Mercado Livre</label>
 
 <input
 id="link"
 type="url"
-placeholder="Cole seu link de afiliado aqui"
+placeholder="Ex: https://meli.la/..."
 >
 
 <button id="btn" onclick="criarAnuncio()">
@@ -158,6 +167,7 @@ placeholder="Cole seu link de afiliado aqui"
 <div class="campo">
 <h3>🎬 ROTEIRO</h3>
 <div id="roteiro" class="texto"></div>
+
 <button class="copiar" onclick="copiar('roteiro')">
 📋 COPIAR ROTEIRO
 </button>
@@ -166,17 +176,24 @@ placeholder="Cole seu link de afiliado aqui"
 <div class="campo">
 <h3>📝 LEGENDA</h3>
 <div id="legenda" class="texto"></div>
+
 <button class="copiar" onclick="copiar('legenda')">
 📋 COPIAR LEGENDA
 </button>
 </div>
 
 <div class="campo">
-<h3>🔗 LINK DE AFILIADO</h3>
+<h3>🔗 SEU LINK DE AFILIADO</h3>
+
 <div id="linkResultado" class="texto link"></div>
 </div>
 
 </div>
+
+<p class="aviso">
+V1 — gerador de anúncios para afiliados.
+A integração com IA e publicação automática será adicionada nas próximas etapas.
+</p>
 
 </div>
 
@@ -188,15 +205,28 @@ const link =
 document.getElementById("link").value.trim();
 
 if(!link){
-alert("Cole seu link primeiro.");
+
+alert("Cole primeiro o seu link de afiliado.");
+
 return;
 }
 
-if(
-!link.includes("mercadolivre") &&
-!link.includes("mercadolibre")
-){
-alert("Esse não parece ser um link do Mercado Livre.");
+/*
+Aceita:
+- mercadolivre.com.br
+- mercadolibre.com
+- meli.la
+*/
+
+const linkValido =
+link.includes("mercadolivre") ||
+link.includes("mercadolibre") ||
+link.includes("meli.la");
+
+if(!linkValido){
+
+alert("Cole um link válido do Mercado Livre.");
+
 return;
 }
 
@@ -206,14 +236,15 @@ document.getElementById("btn");
 const status =
 document.getElementById("status");
 
-botao.disabled=true;
+botao.disabled = true;
 
-status.innerText="🤖 Criando seu anúncio...";
+status.innerText =
+"🤖 Criando seu anúncio...";
 
-setTimeout(()=>{
+setTimeout(function(){
 
 document.getElementById("gancho").innerText =
-"🔥 OLHA O ACHADO QUE EU ENCONTREI NO MERCADO LIVRE!";
+"🔥 OLHA ESSE ACHADO QUE EU ENCONTREI NO MERCADO LIVRE!";
 
 document.getElementById("roteiro").innerText =
 `Olha esse achado!
@@ -224,14 +255,14 @@ vale a pena conferir essa opção.
 Veja o preço, as avaliações e todos os detalhes
 antes de comprar.
 
-O link está disponível para você conferir.`;
+Confira o produto através do link da indicação.`;
 
 document.getElementById("legenda").innerText =
 `🔥 ACHADINHO DO MERCADO LIVRE!
 
 Encontrei esse produto e vale a pena conferir.
 
-👉 Confira os detalhes pelo link da indicação.
+👉 Confira preço, avaliações e detalhes pelo link da indicação.
 
 #mercadolivre
 #achadinhos
@@ -242,28 +273,42 @@ Encontrei esse produto e vale a pena conferir.
 document.getElementById("linkResultado").innerText =
 link;
 
-document.getElementById("resultado").style.display="block";
+document.getElementById("resultado").style.display =
+"block";
 
-status.innerText="✅ Anúncio criado!";
+status.innerText =
+"✅ Anúncio criado com sucesso!";
 
-botao.disabled=false;
+botao.disabled = false;
 
 },1000);
 
 }
 
+
 function copiar(id){
 
-const texto =
-document.getElementById(id).innerText;
+const elemento =
+document.getElementById(id);
 
-navigator.clipboard.writeText(texto);
+const texto =
+elemento.innerText;
+
+navigator.clipboard.writeText(texto)
+.then(function(){
 
 alert("Copiado! ✅");
+
+})
+.catch(function(){
+
+alert("Não foi possível copiar automaticamente.");
+
+});
 
 }
 
 </script>
 
 </body>
-</html>
+      </html>
