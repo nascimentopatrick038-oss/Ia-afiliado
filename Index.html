@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Afiliado AI</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f3f4f6;
+  min-height:100vh;
+  padding:20px;
+}
+
+.container{
+  max-width:520px;
+  margin:auto;
+}
+
+header{
+  text-align:center;
+  padding:25px 0;
+}
+
+header h1{
+  font-size:30px;
+}
+
+header p{
+  color:#666;
+  margin-top:8px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+input{
+  width:100%;
+  padding:15px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  margin-bottom:12px;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  background:#111827;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+
+button:disabled{
+  opacity:.6;
+}
+
+.resultado{
+  display:none;
+}
+
+.campo{
+  margin-top:18px;
+}
+
+.campo h3{
+  font-size:13px;
+  color:#777;
+  margin-bottom:7px;
+}
+
+.texto{
+  background:#f3f4f6;
+  padding:13px;
+  border-radius:10px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+
+.copiar{
+  margin-top:8px;
+  background:#e5e7eb;
+  color:#111827;
+  font-size:14px;
+}
+
+.link{
+  word-break:break-all;
+  color:#2563eb;
+}
+
+.status{
+  text-align:center;
+  margin-top:12px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<h1>🚀 Afiliado AI</h1>
+<p>Seu assistente automático de afiliados</p>
+</header>
+
+<div class="card">
+
+<label>🔗 Link do Mercado Livre</label>
+
+<input
+id="link"
+type="url"
+placeholder="Cole seu link de afiliado aqui"
+>
+
+<button id="btn" onclick="criarAnuncio()">
+🔥 CRIAR ANÚNCIO
+</button>
+
+<p id="status" class="status"></p>
+
+</div>
+
+<div id="resultado" class="card resultado">
+
+<h2>📦 Anúncio criado</h2>
+
+<div class="campo">
+<h3>🎯 GANCHO</h3>
+<div id="gancho" class="texto"></div>
+</div>
+
+<div class="campo">
+<h3>🎬 ROTEIRO</h3>
+<div id="roteiro" class="texto"></div>
+<button class="copiar" onclick="copiar('roteiro')">
+📋 COPIAR ROTEIRO
+</button>
+</div>
+
+<div class="campo">
+<h3>📝 LEGENDA</h3>
+<div id="legenda" class="texto"></div>
+<button class="copiar" onclick="copiar('legenda')">
+📋 COPIAR LEGENDA
+</button>
+</div>
+
+<div class="campo">
+<h3>🔗 LINK DE AFILIADO</h3>
+<div id="linkResultado" class="texto link"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function criarAnuncio(){
+
+const link =
+document.getElementById("link").value.trim();
+
+if(!link){
+alert("Cole seu link primeiro.");
+return;
+}
+
+if(
+!link.includes("mercadolivre") &&
+!link.includes("mercadolibre")
+){
+alert("Esse não parece ser um link do Mercado Livre.");
+return;
+}
+
+const botao =
+document.getElementById("btn");
+
+const status =
+document.getElementById("status");
+
+botao.disabled=true;
+
+status.innerText="🤖 Criando seu anúncio...";
+
+setTimeout(()=>{
+
+document.getElementById("gancho").innerText =
+"🔥 OLHA O ACHADO QUE EU ENCONTREI NO MERCADO LIVRE!";
+
+document.getElementById("roteiro").innerText =
+`Olha esse achado!
+
+Se você está procurando um produto com bom custo-benefício,
+vale a pena conferir essa opção.
+
+Veja o preço, as avaliações e todos os detalhes
+antes de comprar.
+
+O link está disponível para você conferir.`;
+
+document.getElementById("legenda").innerText =
+`🔥 ACHADINHO DO MERCADO LIVRE!
+
+Encontrei esse produto e vale a pena conferir.
+
+👉 Confira os detalhes pelo link da indicação.
+
+#mercadolivre
+#achadinhos
+#ofertas
+#compras
+#promocao`;
+
+document.getElementById("linkResultado").innerText =
+link;
+
+document.getElementById("resultado").style.display="block";
+
+status.innerText="✅ Anúncio criado!";
+
+botao.disabled=false;
+
+},1000);
+
+}
+
+function copiar(id){
+
+const texto =
+document.getElementById(id).innerText;
+
+navigator.clipboard.writeText(texto);
+
+alert("Copiado! ✅");
+
+}
+
+</script>
+
+</body>
+</html>
