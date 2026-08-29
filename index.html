@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Afiliado AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f2f3f5;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .topo {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .topo h1 {
+      font-size: 30px;
+    }
+
+    .topo p {
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #resultado {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .campo {
+      margin-bottom: 18px;
+    }
+
+    .campo h3 {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 7px;
+    }
+
+    .texto {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 10px;
+      line-height: 1.5;
+    }
+
+    .copiar {
+      margin-top: 8px;
+      background: #e5e7eb;
+      color: #111;
+      font-size: 14px;
+    }
+
+    .aviso {
+      margin-top: 20px;
+      color: #777;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="topo">
+    <h1>🚀 Afiliado AI</h1>
+    <p>Crie seu anúncio automaticamente</p>
+  </div>
+
+  <div class="card">
+
+    <label>🔗 Cole seu link do Mercado Livre</label>
+
+    <input
+      id="link"
+      type="url"
+      placeholder="Cole seu link aqui"
+    >
+
+    <button onclick="criarAnuncio()">
+      🔥 CRIAR ANÚNCIO
+    </button>
+
+    <div id="resultado">
+
+      <div class="campo">
+        <h3>🎯 GANCHO</h3>
+        <div class="texto" id="gancho"></div>
+      </div>
+
+      <div class="campo">
+        <h3>🎬 ROTEIRO</h3>
+        <div class="texto" id="roteiro"></div>
+        <button class="copiar" onclick="copiar('roteiro')">
+          📋 Copiar roteiro
+        </button>
+      </div>
+
+      <div class="campo">
+        <h3>📝 LEGENDA</h3>
+        <div class="texto" id="legenda"></div>
+        <button class="copiar" onclick="copiar('legenda')">
+          📋 Copiar legenda
+        </button>
+      </div>
+
+      <div class="campo">
+        <h3>🔗 SEU LINK</h3>
+        <div class="texto" id="linkResultado"></div>
+      </div>
+
+    </div>
+
+    <p class="aviso">
+      V1 — geração automática do conteúdo.
+      A integração de publicação no TikTok será adicionada depois.
+    </p>
+
+  </div>
+
+</div>
+
+<script>
+
+function criarAnuncio() {
+
+  const link = document.getElementById("link").value.trim();
+
+  if (!link) {
+    alert("Cole primeiro o seu link do Mercado Livre.");
+    return;
+  }
+
+  if (
+    !link.includes("mercadolivre") &&
+    !link.includes("mercadolibre")
+  ) {
+    alert("Cole um link do Mercado Livre.");
+    return;
+  }
+
+  document.getElementById("gancho").innerText =
+    "🔥 Olha esse achado que encontrei no Mercado Livre!";
+
+  document.getElementById("roteiro").innerText =
+`Olha esse achado!
+
+Se você está procurando um produto com bom custo-benefício,
+vale a pena conferir essa opção.
+
+Confira os detalhes, preço e avaliações através do link da indicação.
+
+Não deixa de conferir antes que o preço mude!`;
+
+  document.getElementById("legenda").innerText =
+`🔥 ACHADINHO DO MERCADO LIVRE!
+
+Confira esse produto e veja todos os detalhes.
+
+👉 Link da indicação disponível no anúncio.
+
+#mercadolivre
+#achadinhos
+#ofertas
+#compras`;
+
+  document.getElementById("linkResultado").innerText = link;
+
+  document.getElementById("resultado").style.display = "block";
+}
+
+
+function copiar(elemento) {
+
+  const texto =
+    document.getElementById(elemento).innerText;
+
+  navigator.clipboard.writeText(texto);
+
+  alert("Copiado! ✅");
+}
+
+</script>
+
+</body>
+</html>
